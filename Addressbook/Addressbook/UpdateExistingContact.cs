@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace AddressBookProgram
 {
-    internal class AddNewContacts
+    internal class UpdateExistingContact
     {
+
         static String firstName;
         static String lastName;
         static long phoneNumber;
@@ -18,13 +19,68 @@ namespace AddressBookProgram
         static int zipCode;
         public static List<String> addressBook = new List<String>();
 
-        
-        public void addNewContacts()
+        public void UpdateContact()
         {
+            Console.WriteLine("Select an option: ");
+            Console.Write("1. Create Contact \n2. Update Contact \n0. Exit\nOption:  ");
+            int option = Convert.ToInt32(Console.ReadLine());
 
-            CreateContact(addressBook);
+            switch (option)
+            {
+                case 1:
+
+                    CreateContact(addressBook);
+                    break;
+                case 2:
+                    UpdateExistingContacts(addressBook);
+                    break;
+                default:
+                    Environment.Exit(-1);
+                    break;
+            }
+
         }
 
+
+        
+        public void UpdateExistingContacts(List<string> addressBook)
+        {
+            if (addressBook.Count == 0)
+            {
+                Console.Write("\nAddress Book is empty. \n\n");
+                toContinue();
+            }
+            else
+            {
+                Console.Write("\nEnter contact name that you want to update:  ");
+                String name = Console.ReadLine();
+                for (int i = 0; i < addressBook.Count; i++)
+                {
+                    String[] contactArray = addressBook[i].Split(" ");
+
+                    for (int j = 0; j < contactArray.Length; j++)
+                    {
+                        if (name == contactArray[0])
+                        {
+                            Console.WriteLine("\nPlease update contact details:  \n");
+                            ContactDeatils();
+                            String updatedContact = firstName + " " + lastName + " " + phoneNumber.ToString() + " " + email + " " + address + " " + city + " " + state + " " + zipCode.ToString();
+                            addressBook[i] = updatedContact;
+                            break;
+                        }
+                    }
+                }
+
+                Console.WriteLine("\n\nContact Updated.\n");
+
+                for (int i = 0; i < addressBook.Count; i++)
+                {
+                    Console.WriteLine("{0}.  {1}", i + 1, addressBook[i]);
+                }
+                toContinue();
+
+            }
+        }
 
         
         public void CreateContact(List<string> addressBook)
@@ -44,7 +100,6 @@ namespace AddressBookProgram
 
                 Console.WriteLine("Do you want to continue: y/n");
                 ch = Convert.ToChar(Console.ReadLine());
-                Console.WriteLine("\n---------------------------------------------------------------------------------------------------------");
             }
             while (ch == 'y');
 
@@ -53,7 +108,7 @@ namespace AddressBookProgram
 
             for (int i = 0; i < addressBook.Count; i++)
             {
-                Console.WriteLine("{0}.  {1}", i + 1, addressBook[i]);
+                Console.WriteLine("{0}.  {1}", i, addressBook[i]);
             }
             toContinue();
         }
@@ -81,19 +136,20 @@ namespace AddressBookProgram
         }
 
 
-
+        
         public void toContinue()
         {
-            Console.WriteLine("\n---------------------------------------------------------------------------------------------------------");
             char ch;
             Console.WriteLine("Do you want to continue: y/n");
             ch = Convert.ToChar(Console.ReadLine());
             Console.WriteLine("\n\n");
             if (ch == 'y')
             {
-                addNewContacts();
-
-                Console.WriteLine("\n---------------------------------------------------------------------------------------------------------");
+                UpdateContact();
+            }
+            else
+            {
+                Environment.Exit(-1);
             }
         }
     }
