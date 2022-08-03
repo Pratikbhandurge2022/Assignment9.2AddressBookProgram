@@ -8,7 +8,6 @@ namespace AddressBookProgram
 {
     internal class CreateContacts
     {
-        // method for creating single contact and displaying contact
         public void CreateContact()
         {
             string contact;
